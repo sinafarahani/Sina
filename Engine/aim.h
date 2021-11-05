@@ -1,13 +1,13 @@
 #pragma once
 #include "Graphics.h"
+#include "Vector.h"
 
 class aim {
 public:
 	void DrawAimtoogled(Graphics& gfx);
 	void DrawAimtoogledtar(Graphics& gfx);
 	void DrawAim(Graphics& gfx);
-	int x = Graphics::ScreenWidth / 2;
-	int y = Graphics::ScreenHeight / 2;
+	Vector pos;
 	int r = 255;
 	int g = 255;
 	int b = 255;

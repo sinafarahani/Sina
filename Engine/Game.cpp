@@ -1,6 +1,5 @@
 #include "MainWindow.h"
 #include "Game.h"
-#include <random>
 
 Game::Game( MainWindow& wnd )
 	:
@@ -24,33 +23,33 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	aim.x = wnd.mouse.GetPosX();
-	aim.y = wnd.mouse.GetPosY();
-	if (aim.x + (aim.hud*2.3) > gfx.ScreenWidth)
-		aim.x = (aim.hud * 2.3);
-	else if (aim.x - (aim.hud * 2.3) < 0)
-		aim.x = gfx.ScreenWidth - (aim.hud * 2.3);
-	if (aim.y + (aim.hud * 2.3) > gfx.ScreenHeight)
-		aim.y = (aim.hud * 2.3);
-	else if (aim.y - (aim.hud * 2.3) < 0)
-		aim.y = gfx.ScreenHeight - (aim.hud * 2.3);
+	aim.pos.x = wnd.mouse.GetPosX();
+	aim.pos.y = wnd.mouse.GetPosY();
+	if (aim.pos.x + (aim.hud*2.3) > gfx.ScreenWidth)
+		aim.pos.x = (aim.hud * 2.3);
+	else if (aim.pos.x - (aim.hud * 2.3) < 0)
+		aim.pos.x = gfx.ScreenWidth - (aim.hud * 2.3);
+	if (aim.pos.y + (aim.hud * 2.3) > gfx.ScreenHeight)
+		aim.pos.y = (aim.hud * 2.3);
+	else if (aim.pos.y - (aim.hud * 2.3) < 0)
+		aim.pos.y = gfx.ScreenHeight - (aim.hud * 2.3);
 	for (int i = 0; i < count; i++) {
-		if (aim.x < (tar[i].x + 20) && aim.x >(tar[i].x - 1) && aim.y < (tar[i].y + 20) && aim.y >(tar[i].y - 1))
+		if (aim.pos.x < (tar[i].pos.x + 20) && aim.pos.x >(tar[i].pos.x - 1) && aim.pos.y < (tar[i].pos.y + 20) && aim.pos.y >(tar[i].pos.y - 1))
 			tar[i].targeted = true;
 		else
 			tar[i].targeted = false;
-		if (tar[i].x + 20 > gfx.ScreenWidth || tar[i].x - 20 < 0 || tar[i].y + 20 > gfx.ScreenHeight || tar[i].y - 20 < 0) {
-			aim.x = (gfx.ScreenWidth / 2);
-			tar[i].x = (gfx.ScreenWidth / 2);
-			aim.y = (gfx.ScreenHeight / 2);
-			tar[i].y = (gfx.ScreenHeight / 2);
+		if (tar[i].pos.x + 20 > gfx.ScreenWidth || tar[i].pos.x - 20 < 0 || tar[i].pos.y + 20 > gfx.ScreenHeight || tar[i].pos.y - 20 < 0) {
+			aim.pos.x = (gfx.ScreenWidth / 2);
+			tar[i].pos.x = (gfx.ScreenWidth / 2);
+			aim.pos.y = (gfx.ScreenHeight / 2);
+			tar[i].pos.y = (gfx.ScreenHeight / 2);
 		}
 	}
 }
 
 void Game::ComposeFrame()
 {
-	if (wnd.kbd.KeyIsPressed('W')&&aim.hud<(gfx.ScreenHeight/20)&& aim.x + (aim.hud * 2.3) < gfx.ScreenWidth&& aim.x - (aim.hud * 2.3) > 0) {
+	if (wnd.kbd.KeyIsPressed('W')&&aim.hud<(gfx.ScreenHeight/20)&& aim.pos.x + (aim.hud * 2.3) < gfx.ScreenWidth&& aim.pos.x - (aim.hud * 2.3) > 0) {
 		aim.toogled_hud += 0.5;
 		aim.hud += 1;
 	}if (wnd.kbd.KeyIsPressed('S')&& aim.toogled_hud>3) {
