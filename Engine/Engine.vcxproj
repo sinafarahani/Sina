@@ -141,24 +141,39 @@
     <ClInclude Include="ChiliWin.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="DXErr.h" />
+    <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="LifeCounter.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="RectF.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="SoundEffect.h" />
+    <ClInclude Include="SpriteCodex.h" />
     <ClInclude Include="target.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="XAudio\audiodefs.h" />
+    <ClInclude Include="XAudio\comdecl.h" />
+    <ClInclude Include="XAudio\XAudio2.h" />
+    <ClInclude Include="XAudio\XAudio2fx.h" />
+    <ClInclude Include="XAudio\xma2defs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="aim.cpp" />
     <ClCompile Include="DXErr.cpp" />
+    <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="RectF.cpp" />
+    <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="SpriteCodex.cpp" />
     <ClCompile Include="target.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>

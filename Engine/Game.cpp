@@ -1,4 +1,3 @@
-#include "MainWindow.h"
 #include "Game.h"
 
 Game::Game( MainWindow& wnd )
@@ -56,29 +55,77 @@ void Game::ComposeFrame()
 		aim.toogled_hud -= 0.5;
 		aim.hud -= 1;
 	}
-	alldead = true;
 	for (int i = 0; i < count; i++) {
 		if (!tar[i].dead) {
 			tar[i].face(gfx);
 			tar[i].move();
 		}
-		if (wnd.mouse.RightIsPressed())
+		else {
+			if (f_blood) {
+				f_kill = chrono::high_resolution_clock::now();
+				f_blood = false;
+			}
+			kill_now = chrono::high_resolution_clock::now();
+			respawn_dr = kill_now - f_kill;
+			respawn_time = respawn_dr.count();
+			if (respawn_time>5) {
+				for (int index = 0; index < count; index++) {
+					tar[index].dead = false;
+				}
+				f_kill = chrono::high_resolution_clock::now();
+			}
+		}
+		if (wnd.mouse.LeftIsPressed()) {
+			if (!snd_play_shot) {
+				snd_play_shot = true;
+				if (snd_rnd % 3 != 0) {
+					snd_pmp1.Play();
+					snd_pmp_bul1.Play();
+				}
+				else {
+					snd_pmp2.Play();
+					snd_pmp_bul2.Play();
+				}
+			}
+		}
+		if (wnd.mouse.RightIsPressed()) {
+			if (!snd_play_aim) {
+				snd_play_aim = true;
+				if (snd_rnd % 3 != 0) {
+					snd_pmp_aim_in1.Play();
+				}
+				else
+					snd_pmp_aim_in2.Play();
+			}
 			if (tar[i].targeted) {
 				aim.DrawAimtoogledtar(gfx);
 				if (wnd.mouse.LeftIsPressed()) {
 					tar[i].dead = true;
+					counter++;
 				}
 			}
 			else
 				aim.DrawAimtoogled(gfx);
-		else
+		}
+		else {
 			aim.DrawAim(gfx);
-		alldead = alldead && tar[i].dead;
+		}
 	}
-	if (alldead) {
+	now = chrono::high_resolution_clock::now();
+	dr = now - start;
+	time = dr.count();
+	if (time>30) {
 		GameOver = true;
 		game_over(gfx.ScreenWidth / 2, gfx.ScreenHeight / 2);
+		wstring str = to_wstring(counter);
+		wnd.ShowMessageBox(L"Score", L"Your Score is: " + str);
 	}
+	if (!wnd.mouse.LeftIsPressed()) {
+		snd_play_shot = false;
+	}if (!wnd.mouse.RightIsPressed()) {
+		snd_play_aim = false;
+	}
+
 }
 
 
