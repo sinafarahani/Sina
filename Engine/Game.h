@@ -37,8 +37,8 @@ private:
 	/********************************/
 	/*  User Variables              */
 	aim aim;
-	static constexpr int count = 10;
-	target tar[count];
+	static constexpr int game_total_time = 30;
+	target tar;
 	bool GameOver = false;
 	int snd_rnd = 0;
 	bool snd_play_shot = false;
@@ -52,6 +52,8 @@ private:
 	chrono::high_resolution_clock::time_point kill_now;
 	chrono::duration<double> respawn_dr;
 	double respawn_time;
+	static constexpr double respawn_time_check = 3;
 	bool f_blood = true;
+	bool LeftIsPressed = false;
 	/********************************/
 };

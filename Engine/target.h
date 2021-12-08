@@ -10,7 +10,7 @@ public:
 	void face(Graphics& gfx);
 	Vector pos;
 	Vector v;
-	double mov_speed = 5;
+	double mov_speed = 3;
 	bool dead = false;
 	bool targeted = false;
 };
