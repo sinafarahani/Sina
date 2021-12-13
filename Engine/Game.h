@@ -6,7 +6,9 @@
 #include "aim.h"
 #include "SoundEffect.h";
 #include "FrameTimer.h"
+#include "SpriteCodex.h"
 #include <chrono>
+
 
 using namespace std;
 class Game
@@ -21,7 +23,6 @@ private:
 	void UpdateModel();
 	/********************************/
 	/*  User Functions              */
-	void game_over(int x, int y);
 	/********************************/
 private:
 	MainWindow& wnd;
@@ -39,6 +40,7 @@ private:
 	aim aim;
 	static constexpr int game_total_time = 30;
 	target tar;
+	Vector center;
 	bool GameOver = false;
 	int snd_rnd = 0;
 	bool snd_play_shot = false;
@@ -48,11 +50,12 @@ private:
 	chrono::duration<double> dr;
 	double time;
 	int counter = 0;
-	chrono::high_resolution_clock::time_point f_kill;
-	chrono::high_resolution_clock::time_point kill_now;
-	chrono::duration<double> respawn_dr;
-	double respawn_time;
-	static constexpr double respawn_time_check = 3;
+	int recoil = 0;
+	chrono::high_resolution_clock::time_point cooldown;
+	chrono::high_resolution_clock::time_point rec_cool;
+	chrono::duration<double> rec_dr;
+	double cooldown_rate;
+	static constexpr double cool_rate = 0.08;
 	bool f_blood = true;
 	bool LeftIsPressed = false;
 	/********************************/

@@ -7,7 +7,6 @@ class target {
 public:
 	void move();
 	void rand(Graphics& gfx);
-	void face(Graphics& gfx);
 	Vector pos;
 	Vector v;
 	double mov_speed = 3;

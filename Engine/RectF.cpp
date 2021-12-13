@@ -33,6 +33,11 @@ bool RectF::IsContainedBy( const RectF & other ) const
 		top >= other.top && bottom <= other.bottom;
 }
 
+bool RectF::Contains(const Vector& point) const
+{
+	return point.x >= left && point.x < right&& point.y >= top && point.y < bottom;
+}
+
 RectF RectF::FromCenter( const Vector & center,double halfWidth,double halfHeight )
 {
 	const Vector half( halfWidth,halfHeight );

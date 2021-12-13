@@ -11,6 +11,7 @@ public:
 	RectF( const Vector& topLeft,double width,double height );
 	bool IsOverlappingWith( const RectF& other ) const;
 	bool IsContainedBy( const RectF& other ) const;
+	bool Contains(const Vector& point) const;
 	static RectF FromCenter( const Vector& center,double halfWidth,double halfHeight );
 	RectF GetExpanded( double offset ) const;
 	Vector GetCenter() const;

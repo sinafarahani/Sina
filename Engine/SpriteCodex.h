@@ -11,9 +11,11 @@ public:
 	// centered drawing of 200x160 sprite
 	static void DrawTitle( const Vector& center,Graphics& gfx );
 	// centered drawing of 84x64 sprite
-	static void SpriteCodex::DrawGameOver( const Vector& center,Graphics& gfx );
+	static void DrawGameOver( const Vector& center,Graphics& gfx );
 	// centered drawing of 104x19 sprite
-	static void SpriteCodex::DrawReady( const Vector& center,Graphics& gfx );
+	static void DrawReady( const Vector& center,Graphics& gfx );
 	// centered drawing of 24x24 sprite
-	static void SpriteCodex::DrawPoo( const Vector& center,Graphics& gfx );
+	static void DrawPoo( const Vector& center,Graphics& gfx );
+	static void face(const Vector& pos, Graphics& gfx);
+	static void game_over(const Vector& center, Graphics& gfx);
 };
