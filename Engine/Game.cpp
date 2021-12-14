@@ -1,9 +1,9 @@
 #include "Game.h"
 
-Game::Game( MainWindow& wnd )
+Game::Game(MainWindow& wnd)
 	:
-	wnd( wnd ),
-	gfx( wnd )
+	wnd(wnd),
+	gfx(wnd)
 {
 	tar.rand(gfx);
 	center.x = gfx.ScreenWidth / 2;
@@ -31,6 +31,7 @@ void Game::UpdateModel()
 	}
 	aim.pos.x = wnd.mouse.GetPosX();
 	aim.pos.y = wnd.mouse.GetPosY() - recoil;
+	pump.inside_scr(gfx, aim.pos);
 	if (aim.pos.x + (aim.hud * 2.3) > gfx.ScreenWidth)
 		aim.pos.x = (aim.hud * 2.3);
 	else if (aim.pos.x - (aim.hud * 2.3) < 0)
@@ -39,6 +40,10 @@ void Game::UpdateModel()
 		aim.pos.y = (aim.hud * 2.3);
 	else if (aim.pos.y - (aim.hud * 2.3) < 0)
 		aim.pos.y = gfx.ScreenHeight - (aim.hud * 2.3);
+	if (pump.on_target(aim.pos,tar.pos))
+		tar.targeted = true;
+	else
+		tar.targeted = false;
 	if (aim.pos.x < (tar.pos.x + 20) && aim.pos.x >(tar.pos.x - 1) && aim.pos.y < (tar.pos.y + 20) && aim.pos.y >(tar.pos.y - 1))
 		tar.targeted = true;
 	else
@@ -123,14 +128,25 @@ void Game::ComposeFrame()
 		}
 		if (wnd.mouse.RightIsPressed()) {
 			if (tar.targeted) {
-				aim.DrawAimtoogledtar(gfx);
+				pump.set_scale(0.6);
+				pump.g = 0;
+				pump.b = 0;
+				//aim.DrawAimtoogledtar(gfx);
 			}
-			else
-				aim.DrawAimtoogled(gfx);
+			else {
+				pump.g = 255;
+				pump.b = 255;
+				pump.set_scale(0.6);
+				//aim.DrawAimtoogled(gfx);
+			}
 		}
 		else {
-			aim.DrawAim(gfx);
+			pump.g = 255;
+			pump.b = 255;
+			pump.set_scale(1);
+			//aim.DrawAim(gfx);
 		}
+	pump.draw(gfx, aim.pos);
 	now = chrono::high_resolution_clock::now();
 	dr = now - start;
 	time = dr.count();

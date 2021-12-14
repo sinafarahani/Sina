@@ -4,6 +4,7 @@
 #include "Graphics.h"
 #include "target.h"
 #include "aim.h"
+#include "pump.h"
 #include "SoundEffect.h";
 #include "FrameTimer.h"
 #include "SpriteCodex.h"
@@ -38,6 +39,7 @@ private:
 	/********************************/
 	/*  User Variables              */
 	aim aim;
+	pump pump;
 	static constexpr int game_total_time = 30;
 	target tar;
 	Vector center;

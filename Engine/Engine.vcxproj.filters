@@ -90,6 +90,9 @@
     <ClInclude Include="XAudio\xma2defs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="pump.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">
@@ -132,6 +135,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SpriteCodex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pump.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

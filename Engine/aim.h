@@ -13,4 +13,5 @@ public:
 	int b = 255;
 	double hud = 5;
 	double toogled_hud = 3.5;
+	double scale = 2.3;
 };
