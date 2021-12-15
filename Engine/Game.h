@@ -4,7 +4,7 @@
 #include "Graphics.h"
 #include "target.h"
 #include "aim.h"
-#include "pump.h"
+#include "weapon.h"
 #include "SoundEffect.h";
 #include "FrameTimer.h"
 #include "SpriteCodex.h"
@@ -29,17 +29,12 @@ private:
 	MainWindow& wnd;
 	Graphics gfx;
 	FrameTimer ft;
-	Sound snd_pmp1 = Sound(L"sounds\\Shotgun_Pump_NewFire2_01.wav");
-	Sound snd_pmp2 = Sound(L"sounds\\Shotgun_Pump_NewFire2_02.wav");
-	Sound snd_pmp_bul1 = Sound(L"sounds\\weapon_shotgun_new_pump_01.wav");
-	Sound snd_pmp_bul2 = Sound(L"sounds\\weapon_shotgun_new_pump_02.wav");
-	Sound snd_pmp_aim_in1 = Sound(L"sounds\\Weapon_Shotgun_ADS_In_01.wav");
-	Sound snd_pmp_aim_in2 = Sound(L"sounds\\Weapon_Shotgun_ADS_In_02.wav");
-	//Sound snd_pmp_aim_out = Sound(L"sounds\\Weapon_HEAVYSHOT_ADS_OUT_02.wav");
 	/********************************/
 	/*  User Variables              */
 	aim aim;
+	weapon gun;
 	pump pump;
+	scarL scar;
 	static constexpr int game_total_time = 30;
 	target tar;
 	Vector center;
@@ -55,9 +50,12 @@ private:
 	int recoil = 0;
 	chrono::high_resolution_clock::time_point cooldown;
 	chrono::high_resolution_clock::time_point rec_cool;
+	chrono::high_resolution_clock::time_point fire_time;
+	chrono::high_resolution_clock::time_point fire_now;
+	chrono::duration<double> fire_dr;
 	chrono::duration<double> rec_dr;
 	double cooldown_rate;
-	static constexpr double cool_rate = 0.08;
+	double fire_rate;
 	bool f_blood = true;
 	bool LeftIsPressed = false;
 	/********************************/

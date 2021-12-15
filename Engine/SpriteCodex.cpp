@@ -28302,7 +28302,6 @@ void SpriteCodex::face(const Vector& pos, Graphics& gfx)
 	gfx.PutPixel(12 + int(pos.x), 19 + int(pos.y), 0, 0, 0);
 }
 
-
 void SpriteCodex::game_over(const Vector& center, Graphics& gfx) {
 	const int x = center.x;
 	const int y = center.y;

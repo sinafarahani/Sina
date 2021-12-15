@@ -151,11 +151,13 @@
     <ClInclude Include="pump.h" />
     <ClInclude Include="RectF.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="scarL.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SpriteCodex.h" />
     <ClInclude Include="target.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="weapon.h" />
     <ClInclude Include="XAudio\audiodefs.h" />
     <ClInclude Include="XAudio\comdecl.h" />
     <ClInclude Include="XAudio\XAudio2.h" />
@@ -174,10 +176,12 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="pump.cpp" />
     <ClCompile Include="RectF.cpp" />
+    <ClCompile Include="scarL.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SpriteCodex.cpp" />
     <ClCompile Include="target.cpp" />
     <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="FramebufferPS.hlsl">
