@@ -59,27 +59,22 @@ void Game::ComposeFrame()
 		while (!wnd.mouse.IsEmpty()) {
 			const auto evt = wnd.mouse.Read();
 			if (evt.GetType() == Mouse::Event::Type::LPress && (gun.get_status() == weapon::select::pump)) {
-				fire_now = chrono::high_resolution_clock::now();
-				fire_dr = fire_now - fire_time;
-				fire_rate = fire_dr.count();
-				if (fire_rate >= pump.fire_rate) {
-					if (snd_rnd % 3 != 0) {
-						pump.snd_pmp1.Play();
-						pump.snd_pmp_bul1.Play();
+				if (pump.shot()) {
+					cooldown = chrono::high_resolution_clock::now();
+					recoil += 20;
+					if (tar.targeted) {
+						tar.dead = true;
+						tar.rand(gfx);
+						counter += 5;
 					}
 					else {
-						pump.snd_pmp2.Play();
-						pump.snd_pmp_bul2.Play();
+						counter--;
 					}
 				}
 			}
 			if (evt.GetType() == Mouse::Event::Type::RPress) {
 				if (gun.get_status() == weapon::select::pump) {
-					if (snd_rnd % 3 != 0) {
-						pump.snd_pmp_aim_in1.Play();
-					}
-					else
-						pump.snd_pmp_aim_in2.Play();
+					pump.aim();
 				}if (gun.get_status() == weapon::select::scarL) {
 
 				}
@@ -89,7 +84,7 @@ void Game::ComposeFrame()
 			}
 			if (evt.GetType() == Mouse::Event::Type::RRelease) {
 				if (gun.get_status() == weapon::select::pump)
-					pump.snd_pmp_aim_out.Play(); 
+					pump.aim_out();
 				if (gun.get_status() == weapon::select::scarL){}
 			}
 		}
@@ -100,35 +95,10 @@ void Game::ComposeFrame()
 			if (gun.get_status() == weapon::select::pump) {
 				if (cooldown_rate > pump.cool_rate) {
 					cooldown = chrono::high_resolution_clock::now();
-					if (recoil > 60)
-						recoil -= 4;
-					if (recoil > 30)
-						recoil -= 2;
-					if (recoil > 15)
-						recoil--;
-					recoil--;
+					pump.recoil(recoil);
 				}
 			}if (gun.get_status() == weapon::select::scarL) {
 
-			}
-		}
-		if (wnd.mouse.LeftIsPressed() && !LeftIsPressed && (gun.get_status() == weapon::select::pump)) {
-			fire_now = chrono::high_resolution_clock::now();
-			fire_dr = fire_now - fire_time;
-			fire_rate = fire_dr.count();
-			LeftIsPressed = true;
-			if (fire_rate >= pump.fire_rate) {
-				cooldown = chrono::high_resolution_clock::now();
-				fire_time = chrono::high_resolution_clock::now();
-				recoil += 20;
-				if (tar.targeted) {
-					tar.dead = true;
-					tar.rand(gfx);
-					counter += 5;
-				}
-				else {
-					counter--;
-				}
 			}
 		}if (wnd.mouse.LeftIsPressed() && (gun.get_status() == weapon::select::scarL)) {
 
@@ -159,7 +129,7 @@ void Game::ComposeFrame()
 			}
 		}
 		else {
-			if (gun.get_status() == weapon::select::scarL) {
+			if (gun.get_status() == weapon::select::pump) {
 				pump.g = 255;
 				pump.b = 255;
 				pump.set_scale(1);

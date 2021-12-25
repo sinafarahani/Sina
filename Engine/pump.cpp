@@ -1,5 +1,10 @@
 #include "pump.h"
 
+pump::pump()
+	:
+	snd_rnd(snd_rd())
+{}
+
 void pump::draw(Graphics& gfx, Vector& pos)
 {
 	for (int i = int(pos.x - cond_size); i<int(pos.x - cond_min); i++) {
@@ -54,4 +59,39 @@ void pump::set_scale(double scale)
 	size = 20 * scale;
 	cond_size = 14 * scale;
 	cond_min = 5 * scale;
+}
+
+bool pump::shot()
+{
+	fire_now = chrono::high_resolution_clock::now();
+	fire_dr = fire_now - fire_time;
+	time = fire_dr.count();
+	if (time >= fire_rate) {
+		snd_pmp.Play(snd_rnd);
+		fire_time = chrono::high_resolution_clock::now();
+		return true;
+	}
+	else
+		return false;
+}
+
+void pump::aim()
+{
+	snd_aim_in.Play(snd_rnd);
+}
+
+void pump::aim_out()
+{
+	snd_aim_out.Play(snd_rnd);
+}
+
+void pump::recoil(int& recoil)
+{
+	if (recoil > 60)
+		recoil -= 4;
+	if (recoil > 30)
+		recoil -= 2;
+	if (recoil > 15)
+		recoil--;
+	recoil--;
 }

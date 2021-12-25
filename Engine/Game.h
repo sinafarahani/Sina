@@ -10,8 +10,8 @@
 #include "SpriteCodex.h"
 #include <chrono>
 
-
 using namespace std;
+
 class Game
 {
 public:
@@ -39,8 +39,6 @@ private:
 	target tar;
 	Vector center;
 	bool GameOver = false;
-	int snd_rnd = 0;
-	bool snd_play_shot = false;
 	bool snd_play_aim = false;
 	chrono::high_resolution_clock::time_point start = chrono::high_resolution_clock::now();
 	chrono::high_resolution_clock::time_point now;
@@ -50,12 +48,8 @@ private:
 	int recoil = 0;
 	chrono::high_resolution_clock::time_point cooldown;
 	chrono::high_resolution_clock::time_point rec_cool;
-	chrono::high_resolution_clock::time_point fire_time;
-	chrono::high_resolution_clock::time_point fire_now;
-	chrono::duration<double> fire_dr;
 	chrono::duration<double> rec_dr;
 	double cooldown_rate;
-	double fire_rate;
 	bool f_blood = true;
 	bool LeftIsPressed = false;
 	/********************************/
