@@ -9,7 +9,7 @@ public:
 	void rand(Graphics& gfx);
 	Vector pos;
 	Vector v;
-	double mov_speed = 3;
+	double mov_speed = 2;
 	bool dead = false;
 	bool targeted = false;
 };

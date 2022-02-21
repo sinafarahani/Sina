@@ -29,10 +29,6 @@ void Game::UpdateModel()
 	}
 	aim.pos.x = wnd.mouse.GetPosX();
 	aim.pos.y = wnd.mouse.GetPosY() - recoil;
-	if(gun.get_status() == weapon::select::pump)
-		pump.inside_scr(gfx, aim.pos);
-	if (gun.get_status() == weapon::select::scarL)
-		scar.inside_scr(gfx, aim.pos);
 	if (pump.on_target(aim.pos,tar.pos))
 		tar.targeted = true;
 	else
@@ -61,7 +57,7 @@ void Game::ComposeFrame()
 			if (evt.GetType() == Mouse::Event::Type::LPress && (gun.get_status() == weapon::select::pump)) {
 				if (pump.shot()) {
 					cooldown = chrono::high_resolution_clock::now();
-					recoil += 20;
+					recoil += pump.get_recoil();
 					if (tar.targeted) {
 						tar.dead = true;
 						tar.rand(gfx);
@@ -76,7 +72,7 @@ void Game::ComposeFrame()
 				if (gun.get_status() == weapon::select::pump) {
 					pump.aim();
 				}if (gun.get_status() == weapon::select::scarL) {
-
+					scar.aim();
 				}
 			}
 			if (evt.GetType() == Mouse::Event::Type::LRelease) {
@@ -85,7 +81,8 @@ void Game::ComposeFrame()
 			if (evt.GetType() == Mouse::Event::Type::RRelease) {
 				if (gun.get_status() == weapon::select::pump)
 					pump.aim_out();
-				if (gun.get_status() == weapon::select::scarL){}
+				if (gun.get_status() == weapon::select::scarL)
+					scar.aim_out();
 			}
 		}
 		if (recoil > 0) {
@@ -98,10 +95,31 @@ void Game::ComposeFrame()
 					pump.recoil(recoil);
 				}
 			}if (gun.get_status() == weapon::select::scarL) {
-
+				if (cooldown_rate > scar.cool_rate) {
+					cooldown = chrono::high_resolution_clock::now();
+					scar.recoil(recoil);
+				}
 			}
 		}if (wnd.mouse.LeftIsPressed() && (gun.get_status() == weapon::select::scarL)) {
-
+			if (scar.fire()) {
+				cooldown = chrono::high_resolution_clock::now();
+				if (wnd.mouse.RightIsPressed())
+					recoil += scar.aim_get_recoil();
+				else
+					recoil += scar.get_recoil();
+				if (tar.targeted) {
+					HP--;
+					if (HP <= 0) {
+						tar.dead = true;
+						tar.rand(gfx);
+						counter += 5;
+						HP = 3;
+					}
+				}
+				else {
+					counter--;
+				}
+			}
 		}
 		if (wnd.mouse.RightIsPressed()) {
 			if (tar.targeted) {

@@ -11,13 +11,13 @@ class pump
 public:
 	pump();
 	void draw(Graphics& gfx, Vector& pos);
-	void inside_scr(Graphics& gfx, Vector& pos);
 	bool on_target(Vector& aim_pos, Vector& tar_pos);
 	void set_scale(double scale);
 	bool shot();
 	void aim();
 	void aim_out();
 	void recoil(int& recoil);
+	int get_recoil();
 	SoundEffect snd_pmp = SoundEffect({ L"sounds\\Shotgun_Pump_NewFire2_01.wav" , L"sounds\\Shotgun_Pump_NewFire2_02.wav" });
 	SoundEffect snd_bul = SoundEffect({ L"sounds\\weapon_shotgun_new_pump_01.wav" ,L"sounds\\weapon_shotgun_new_pump_02.wav" });
 	SoundEffect snd_aim_in = SoundEffect({ L"sounds\\Weapon_Shotgun_ADS_In_01.wav" ,L"sounds\\Weapon_Shotgun_ADS_In_02.wav" });
@@ -34,10 +34,11 @@ private:
 	double scale = 1;
 	double redius = 24 * scale;
 	double size = 20 * scale;
-	int cond_size = 14 * scale;
-	int cond_min = 5 * scale;
+	int cond_size = int(14 * scale);
+	int cond_min = int(5 * scale);
 	chrono::high_resolution_clock::time_point fire_time;
 	chrono::high_resolution_clock::time_point fire_now;
 	chrono::duration<double> fire_dr;
 	double time;
+	const int recoill = 20;
 };

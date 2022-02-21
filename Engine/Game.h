@@ -46,6 +46,7 @@ private:
 	double time;
 	int counter = 0;
 	int recoil = 0;
+	int HP = 3;
 	chrono::high_resolution_clock::time_point cooldown;
 	chrono::high_resolution_clock::time_point rec_cool;
 	chrono::duration<double> rec_dr;
