@@ -281,26 +281,15 @@ void Graphics::EndFrame()
 	}
 }
 
-void Graphics::BeginFrame()
-{
-	// clear the sysbuffer
-	memset( pSysBuffer,0u,sizeof( Color ) * Graphics::ScreenHeight * Graphics::ScreenWidth );
-}
-
 RectF Graphics::GetRect() const
 {
 	return RectF(0, ScreenWidth, 0, ScreenHeight);
 }
 
-void Graphics::PutPixel( int x,int y,Color c )
+RectI Graphics::GetScreenRect()
 {
-	assert( x >= 0 );
-	assert( x < int( Graphics::ScreenWidth ) );
-	assert( y >= 0 );
-	assert( y < int( Graphics::ScreenHeight ) );
-	pSysBuffer[Graphics::ScreenWidth * y + x] = c;
+	return{ 0,ScreenWidth,0,ScreenHeight };
 }
-
 
 //////////////////////////////////////////////////
 //           Graphics Exception
