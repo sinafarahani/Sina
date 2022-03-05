@@ -7,6 +7,14 @@ pump::pump()
 
 void pump::draw(Graphics& gfx, Vector& pos)
 {
+	if (pos.x < 0)
+		pos.x = 0;
+	if (pos.x > gfx.ScreenWidth)
+		pos.x = gfx.ScreenWidth;
+	if (pos.y < 0)
+		pos.y = 0;
+	if (pos.y > gfx.ScreenHeight)
+		pos.y = gfx.ScreenHeight;
 	for (int i = (int(pos.x - cond_size) > 1 ? int(pos.x - cond_size) : 1); i<int(pos.x - cond_min); i++) {
 		if(int(pos.y - size) > 1)
 			gfx.PutPixel(i, int(pos.y - size), r, g, b);

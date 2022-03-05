@@ -10,6 +10,11 @@ void target::move() {
 	pos.x += v.x;
 	pos.y += v.y;
 }
+void target::draw(Graphics& gfx)
+{
+	gfx.DrawSprite(pos.x, pos.y, s, SpriteEffect::Chroma(Colors::Magenta));
+	move();
+}
 void target::rand(Graphics& gfx) {
 	std::random_device rd;
 	std::mt19937_64 rnd(rd());

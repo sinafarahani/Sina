@@ -2,6 +2,14 @@
 
 void scarL::draw(Graphics& gfx, Vector& pos)
 {
+	if (pos.x < 0)
+		pos.x = 0;
+	if (pos.x > gfx.ScreenWidth)
+		pos.x = gfx.ScreenWidth;
+	if (pos.y < 0)
+		pos.y = 0;
+	if (pos.y > gfx.ScreenHeight)
+		pos.y = gfx.ScreenHeight;
 	for (int i = (int(pos.x - cond_size) > 1 ? int(pos.x - cond_size) : 1); i < int(pos.x - cond_min); i++) {
 		if (int(pos.y) > 1 && int(pos.y) < gfx.ScreenHeight)
 			gfx.PutPixel(i, int(pos.y), r, g, b);

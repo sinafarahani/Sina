@@ -15,7 +15,7 @@ Font::Font( const std::string& filename,Color chroma )
 	assert( glyphHeight * nRows == surface.GetHeight() );
 }
 
-void Font::DrawText( const std::string& text,const Vei2& pos,Color color,Graphics& gfx ) const
+void Font::Drawtext( const std::string& text,const Vei2& pos,Color color,Graphics& gfx ) const
 {
 	// create effect functor
 	SpriteEffect::Substitution e{ chroma,color };

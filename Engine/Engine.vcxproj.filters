@@ -69,9 +69,6 @@
     <ClInclude Include="SoundEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteCodex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="XAudio\audiodefs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -117,6 +114,12 @@
     <ClInclude Include="SpriteEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">
@@ -155,9 +158,6 @@
     <ClCompile Include="Sound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteCodex.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="pump.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -183,6 +183,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsOD.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="settings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

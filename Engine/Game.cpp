@@ -12,42 +12,79 @@ Game::Game(MainWindow& wnd)
 
 void Game::Go()
 {
-	if (!GameOver) {
 	gfx.BeginFrame();
 	UpdateModel();
 	ComposeFrame();
-	gfx.EndFrame();
-	}	
+	gfx.EndFrame();	
 }
 
 void Game::UpdateModel()
 {
-	if (wnd.kbd.KeyIsPressed('1')) {
-		gun.set_status(weapon::select::scarL);
-	}if (wnd.kbd.KeyIsPressed('2')) {
-		gun.set_status(weapon::select::pump);
+	if (Started && !GameOver) {
+		if (wnd.kbd.KeyIsPressed(settings.scar_key)) {
+			gun.set_status(weapon::select::scarL);
+		}if (wnd.kbd.KeyIsPressed(settings.pump_key)) {
+			gun.set_status(weapon::select::pump);
+		}
+		if (!(m.is_modify_pump || m.is_modify_scar)) {
+			while (!wnd.kbd.KeyIsEmpty()) {
+				const auto evt = wnd.kbd.ReadKey();
+				if (evt.GetCode() == VK_ESCAPE && evt.IsPress()) {
+					if (m.is_modify_pump || m.is_modify_scar) {}
+					else if (m.control) {
+						m.control = !m.control;
+					}
+					else if (setting) {
+						setting = !setting;
+					}
+					else {
+						paused = !paused;
+						if (paused)
+							paused_s = chrono::high_resolution_clock::now();
+						if (!paused) {
+							paused_e = chrono::high_resolution_clock::now();
+							paused_d = paused_e - paused_s;
+							paused_t += paused_d.count();
+						}
+					}
+				}
+			}
+		}
+		aim.pos.x = wnd.mouse.GetPosX();
+		aim.pos.y = wnd.mouse.GetPosY() - recoil;
+		if (pump.on_target(aim.pos, tar.pos))
+			tar.targeted = true;
+		else
+			tar.targeted = false;
+		if (scar.on_target(aim.pos, tar.pos))
+			tar.targeted = true;
+		else
+			tar.targeted = false;
+		if (tar.pos.x + 20 > gfx.ScreenWidth || tar.pos.x - 20 < 0 || tar.pos.y + 20 > gfx.ScreenHeight || tar.pos.y - 20 < 0) {
+			tar.pos.x = (gfx.ScreenWidth / 2);
+			tar.pos.y = (gfx.ScreenHeight / 2);
+		}
 	}
-	aim.pos.x = wnd.mouse.GetPosX();
-	aim.pos.y = wnd.mouse.GetPosY() - recoil;
-	if (pump.on_target(aim.pos,tar.pos))
-		tar.targeted = true;
-	else
-		tar.targeted = false;
-	if (scar.on_target(aim.pos,tar.pos))
-		tar.targeted = true;
-	else
-		tar.targeted = false;
-	if (tar.pos.x + 20 > gfx.ScreenWidth || tar.pos.x - 20 < 0 || tar.pos.y + 20 > gfx.ScreenHeight || tar.pos.y - 20 < 0) {
-		tar.pos.x = (gfx.ScreenWidth / 2);
-		tar.pos.y = (gfx.ScreenHeight / 2);
-	}
+}
+
+void Game::reset()
+{
+	start = chrono::high_resolution_clock::now();
+	GameOver = false;
+	counter = 0;
+	recoil = 0;
+	HP = 3;
+	Started = false;
+	setting = false;
+	paused = false;
+	paused_t = 0;
 }
 
 void Game::ComposeFrame()
 {
+	if (Started && !paused && !GameOver) {
 		if (!tar.dead) {
-			SpriteCodex::face(tar.pos,gfx);
-			tar.move();
+			tar.draw(gfx);
 		}
 		else {
 			tar.dead = false;
@@ -74,9 +111,6 @@ void Game::ComposeFrame()
 				}if (gun.get_status() == weapon::select::scarL) {
 					scar.aim();
 				}
-			}
-			if (evt.GetType() == Mouse::Event::Type::LRelease) {
-				LeftIsPressed = false;
 			}
 			if (evt.GetType() == Mouse::Event::Type::RRelease) {
 				if (gun.get_status() == weapon::select::pump)
@@ -157,17 +191,55 @@ void Game::ComposeFrame()
 				scar.set_scale(1);
 			}
 		}
-	if (gun.get_status() == weapon::select::pump)
-		pump.draw(gfx, aim.pos);
-	if (gun.get_status() == weapon::select::scarL)
-		scar.draw(gfx, aim.pos);
-	now = chrono::high_resolution_clock::now();
-	dr = now - start;
-	time = dr.count();
-	if (time> game_total_time) {
-		GameOver = true;
-		SpriteCodex::game_over(center, gfx);
-		wstring str = to_wstring(counter);
-		wnd.ShowMessageBox(L"Score", L"Your Score is: " + str);
+		if (gun.get_status() == weapon::select::pump)
+			pump.draw(gfx, aim.pos);
+		if (gun.get_status() == weapon::select::scarL)
+			scar.draw(gfx, aim.pos);
+		now = chrono::high_resolution_clock::now();
+		dr = now - start;
+		time = dr.count() - paused_t;
+		rem_time = game_total_time - time;
+		m.F.Drawtext(to_string(rem_time),{1,1},Colors::White,gfx);
+		m.F.Drawtext(to_string(counter), { int(center.x),1 }, Colors::White, gfx);
+		if (time > game_total_time) {
+			GameOver = true;
+			gfx.DrawSprite(int(center.x), int(center.y), its_over, SpriteEffect::Copy());
+			wstring str = to_wstring(counter);
+			wnd.ShowMessageBox(L"Score", L"Your Score is: " + str);
+		}
+	}
+	else {
+	if (!GameOver) {
+		if (!(m.is_modify_pump || m.is_modify_scar)) {
+			while (!wnd.kbd.KeyIsEmpty()) {
+				const auto evt = wnd.kbd.ReadKey();
+				if (evt.GetCode() == VK_ESCAPE && evt.IsPress()) {
+					if (m.is_modify_pump || m.is_modify_scar) {}
+					else if (m.control) {
+						m.control = !m.control;
+					}
+					else if (setting) {
+						setting = !setting;
+					}
+				}
+			}
+		}
+		m.draw(Started,setting, gfx, wnd, settings);
+		while (!wnd.mouse.IsEmpty()) {
+			const auto evt = wnd.mouse.Read();
+			if (evt.GetType() == Mouse::Event::Type::LPress) {
+				m.detect(wnd.mouse.GetPos(), Started, setting,wnd, settings);
+				if (!Started && !setting)
+					reset();
+			}
+		}
+	}
+	else
+		gfx.DrawSprite(int(center.x), int(center.y), its_over, SpriteEffect::Copy());
+		while (!wnd.mouse.IsEmpty()) {
+			const auto evt = wnd.mouse.Read();
+			if (evt.GetType() == Mouse::Event::Type::LPress || wnd.kbd.KeyIsPressed(VK_RETURN))
+				reset();
+		}
 	}
 }
